@@ -28,6 +28,9 @@
 		8B5051D925728AE600AF76B9 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051D725728AE600AF76B9 /* MovieDetails.swift */; };
 		8B5051E125728B3C00AF76B9 /* get-movie-details.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B5051E025728B3C00AF76B9 /* get-movie-details.json */; };
 		8B5051E225728B3C00AF76B9 /* get-movie-details.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B5051E025728B3C00AF76B9 /* get-movie-details.json */; };
+		8B5051FA2572920200AF76B9 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051F92572920200AF76B9 /* ApiClient.swift */; };
+		8B5051FB2572920200AF76B9 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051F92572920200AF76B9 /* ApiClient.swift */; };
+		8B5052002572937400AF76B9 /* ApiClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051FF2572937400AF76B9 /* ApiClientTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +72,8 @@
 		8B5051D02572840D00AF76B9 /* search-movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "search-movies.json"; sourceTree = "<group>"; };
 		8B5051D725728AE600AF76B9 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		8B5051E025728B3C00AF76B9 /* get-movie-details.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "get-movie-details.json"; sourceTree = "<group>"; };
+		8B5051F92572920200AF76B9 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		8B5051FF2572937400AF76B9 /* ApiClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClientTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +141,7 @@
 			children = (
 				8B50518D2572734500AF76B9 /* Test Data */,
 				8B50516825726F7300AF76B9 /* MoviesTests.swift */,
+				8B5051FF2572937400AF76B9 /* ApiClientTests.swift */,
 				8B50516A25726F7300AF76B9 /* Info.plist */,
 			);
 			path = MoviesTests;
@@ -165,6 +171,7 @@
 			children = (
 				8B5051BD2572756B00AF76B9 /* Entities */,
 				8B5051B42572753100AF76B9 /* Parser.swift */,
+				8B5051F92572920200AF76B9 /* ApiClient.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -321,6 +328,7 @@
 				8B50514F25726F7200AF76B9 /* AppDelegate.swift in Sources */,
 				8B50515925726F7200AF76B9 /* Movies.xcdatamodeld in Sources */,
 				8B5051BF2572758200AF76B9 /* Envelope.swift in Sources */,
+				8B5051FA2572920200AF76B9 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +338,8 @@
 			files = (
 				8B5051B62572753100AF76B9 /* Parser.swift in Sources */,
 				8B50516925726F7300AF76B9 /* MoviesTests.swift in Sources */,
+				8B5052002572937400AF76B9 /* ApiClientTests.swift in Sources */,
+				8B5051FB2572920200AF76B9 /* ApiClient.swift in Sources */,
 				8B5051CC257275DE00AF76B9 /* Movie.swift in Sources */,
 				8B5051D925728AE600AF76B9 /* MovieDetails.swift in Sources */,
 				8B5051C02572758200AF76B9 /* Envelope.swift in Sources */,
