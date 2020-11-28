@@ -69,6 +69,23 @@ class MoviesTests: XCTestCase {
         XCTAssertNil(casinoRoyale.overview)
         XCTAssertNil(casinoRoyale.releaseDate)
     }
+    
+    func testDetailsParsing() throws {
+        let data = loadData(fromJsonFile: "get-movie-details")
+        let butterflyEffect = Parser.parseMovieDetails(data)
+        
+        XCTAssertNotNil(butterflyEffect, "Could not parse get-movie-details response")
+        
+        XCTAssertEqual(butterflyEffect!.id, 1954)
+        XCTAssertEqual(butterflyEffect!.title, "The Butterfly Effect")
+        XCTAssertEqual(butterflyEffect!.posterPath, "/jY0hIz8eolynHqWN8vrTo0cypBI.jpg")
+        XCTAssertNotNil(butterflyEffect!.overview)
+        XCTAssertEqual(butterflyEffect!.releaseDate, "2004-01-22")
+        
+        XCTAssertEqual(butterflyEffect!.budget, 13000000)
+        XCTAssertEqual(butterflyEffect!.revenue, 96060858)
+        XCTAssertEqual(butterflyEffect!.runtime, 113)
+    }
 }
 
 

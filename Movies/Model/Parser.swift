@@ -23,4 +23,20 @@ struct Parser {
         
         return result
     }
+    
+    static func parseMovieDetails(_ data: Data) -> MovieDetails? {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let result: MovieDetails?
+        
+        do {
+            result = try decoder.decode(MovieDetails.self, from: data)
+        } catch {
+            result = nil
+            print("Parsing error: \(error)")
+        }
+        
+        return result
+    }
 }
