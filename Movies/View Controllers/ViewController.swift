@@ -12,13 +12,10 @@ import Kingfisher
 class ViewController: UITableViewController {
     
     lazy var storageManager: StorageManager = {
-        let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let container = appDelegate.persistentContainer
         
-        let api = ApiClient(baseUrl: Config.baseUrl,
-                            apiKey: Config.apiKey,
-                            language: Locale.current.languageCode ?? Config.defaultLanguage)
-        
-        let manager = StorageManager(api: api,
+        let manager = StorageManager(api: appDelegate.api,
                                      container: container)
         
         return manager
@@ -61,9 +58,12 @@ class ViewController: UITableViewController {
         
         //
         
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
         activityIndicator.startAnimating()
         activityIndicator.style = .large
+        activityIndicator.frame = CGRect(x: 0,
+                                         y: 0,
+                                         width: Config.activityIndicatorSize,
+                                         height: Config.activityIndicatorSize)
         
         tableView.tableFooterView = activityIndicator
     }

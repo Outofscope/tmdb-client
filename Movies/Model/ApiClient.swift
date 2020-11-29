@@ -59,6 +59,20 @@ class ApiClient {
             return
         }
         
+        sendRequest(withUrl: url, completion: completion)
+    }
+    
+    func requestSearch(query: String, page: Int, completion: @escaping ([Movie]?, Error?) -> ()) {
+        
+        guard let url = searchUrl(query: query, page: page) else {
+            completion(nil, AppError.urlError)
+            return
+        }
+        
+        sendRequest(withUrl: url, completion: completion)
+    }
+    
+    private func sendRequest(withUrl url: URL, completion: @escaping ([Movie]?, Error?) -> ()) {
         let task = session.dataTask(with: url) { (data, response, error) in
             if error != nil {
                 completion(nil, error)

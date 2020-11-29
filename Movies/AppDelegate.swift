@@ -12,6 +12,10 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    let api = ApiClient(baseUrl: Config.baseUrl,
+                        apiKey: Config.apiKey,
+                        language: Locale.current.languageCode ?? Config.defaultLanguage)
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

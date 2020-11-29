@@ -5,7 +5,7 @@
 //  Created by Konstantin Medvedenko on 28.11.2020.
 //
 
-import Foundation
+import UIKit
 
 struct Config {
     
@@ -20,4 +20,8 @@ struct Config {
     static let posterSizeDetails = "w780"
 
     static let nextPageThreshold = 5 // start downloading next page when the scroll is this near the last item
+    
+    static let activityIndicatorSize: CGFloat = 60
+    
+    static let searchDebounceInterval: TimeInterval = 0.5
 }
