@@ -13,7 +13,17 @@ class StorageManager {
     private let api: ApiClient
     private let container: NSPersistentContainer
     
+    private let totalPageCountKey = "totalPageCount"
     private let lastDownloadedPageKey = "lastDownloadedPage"
+
+    private var totalPageCount: Int {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: totalPageCountKey)
+        }
+        get {
+            UserDefaults.standard.integer(forKey: totalPageCountKey)
+        }
+    }
     
     private var lastDownloadedPage: Int {
         set {
@@ -26,6 +36,10 @@ class StorageManager {
     
     private var discoverFetchIsInProgress = false
     
+    var hasMoreResults: Bool {
+        totalPageCount > lastDownloadedPage
+    }
+    
     
     init(api: ApiClient, container: NSPersistentContainer) {
         self.api = api
@@ -33,15 +47,15 @@ class StorageManager {
     }
     
     // page starts from 1
-    private func fetchDiscover(page: Int, completion: @escaping (Error?) -> ()) {
-        api.requestDiscover(page: page) { [weak self = self] (movieList, error) in
+    private func fetchDiscover(page: Int, completion: @escaping (Int?, Error?) -> ()) {
+        api.requestDiscover(page: page) { [weak self = self] (movieList, totalPages, error) in
             
             guard let self = self else {
                 return
             }
             
-            guard let movieList = movieList else {
-                completion(error ?? AppError.emptyResponse)
+            guard let movieList = movieList, let totalPages = totalPages else {
+                completion(nil, error ?? AppError.emptyResponse)
                 return
             }
             
@@ -49,7 +63,7 @@ class StorageManager {
             
             self.updateStorage(movieList, refresh: needsRefresh)
             
-            completion(nil)
+            completion(totalPages, nil)
         }
     }
     
@@ -64,13 +78,14 @@ class StorageManager {
         
         let page = lastDownloadedPage + 1
         
-        fetchDiscover(page: page) { [weak self = self] error in
+        fetchDiscover(page: page) { [weak self = self] (totalPages, error) in
             
             guard let self = self else {
                 return
             }
             
             DispatchQueue.main.async {
+                self.totalPageCount = totalPages ?? 0
                 self.lastDownloadedPage = page
                 self.discoverFetchIsInProgress = false
                 completion?(error)

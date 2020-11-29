@@ -11,7 +11,8 @@ import Kingfisher
 class SearchResultsController: UITableViewController {
         
     private var activityIndicator = UIActivityIndicatorView()
-    
+    private var endLabel = UILabel()
+
     let searchController = UISearchController(searchResultsController: nil)
     
     lazy var debouncedSearch: () -> Void = {
@@ -34,34 +35,17 @@ class SearchResultsController: UITableViewController {
         manager.delegate = self
         return manager
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(UINib(nibName: "MovieCell", bundle: nil),
                            forCellReuseIdentifier: MovieCell.cellId)
         
-        //
+        setupActivityIndicator()
+        setupSearchController()
         
-        activityIndicator.startAnimating()
-        activityIndicator.style = .large
-        activityIndicator.frame = CGRect(x: 0,
-                                         y: 0,
-                                         width: Config.activityIndicatorSize,
-                                         height: Config.activityIndicatorSize)
-        
-        tableView.tableFooterView = activityIndicator
-        
-        //
-
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Movies"
-        
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        
-        definesPresentationContext = true
+        updateActivityIndicator()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -114,7 +98,36 @@ class SearchResultsController: UITableViewController {
     
     // MARK: -
     
-    func requestNextPageIfNeeded(_ row: Int) {
+    private func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+        activityIndicator.style = .large
+        activityIndicator.frame = CGRect(x: 0,
+                                         y: 0,
+                                         width: UIScreen.main.bounds.width,
+                                         height: Config.activityIndicatorSize)
+                
+        //
+        
+        endLabel.textAlignment = .center
+        endLabel.textColor = .secondaryLabel
+        endLabel.text = "That's all"
+        
+        endLabel.frame = activityIndicator.frame
+    }
+    
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Movies"
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        
+        definesPresentationContext = true
+    }
+    
+    private func requestNextPageIfNeeded(_ row: Int) {
         if row >= searchManager.movieCount - 1 - Config.nextPageThreshold {
             searchManager.fetchNextPageIfNeeded { _ in 
                 
@@ -122,9 +135,9 @@ class SearchResultsController: UITableViewController {
         }
     }
     
-    func debounce(interval: TimeInterval,
-                  queue: DispatchQueue,
-                  action: @escaping (() -> Void)) -> () -> Void {
+    private func debounce(interval: TimeInterval,
+                          queue: DispatchQueue,
+                          action: @escaping (() -> Void)) -> () -> Void {
         
         var lastFireTime = DispatchTime.now()
         let dispatchDelay = DispatchTimeInterval.milliseconds(Int(interval * 1000))
@@ -142,6 +155,16 @@ class SearchResultsController: UITableViewController {
             }
         }
     }
+    
+    private func updateActivityIndicator() {
+        if searchManager.hasMoreResults {
+            tableView.tableFooterView = activityIndicator
+            activityIndicator.startAnimating()
+        } else {
+            tableView.tableFooterView = endLabel
+            activityIndicator.stopAnimating()
+        }
+    }
 }
 
 
@@ -154,6 +177,7 @@ extension SearchResultsController: UISearchResultsUpdating {
 
 extension SearchResultsController: SearchManagerDelegate {
     func searchManagerDidUpdateResults() {
+        updateActivityIndicator()
         tableView.reloadData()
     }
 }

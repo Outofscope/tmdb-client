@@ -52,20 +52,20 @@ class ApiClient {
     // MARK: - Requests
     
     // page starts from 1
-    func requestDiscover(page: Int, completion: @escaping ([Movie]?, Error?) -> ()) {
+    func requestDiscover(page: Int, completion: @escaping ([Movie]?, Int?, Error?) -> ()) {
         
         guard let url = discoverUrl(page: page) else {
-            completion(nil, AppError.urlError)
+            completion(nil, nil, AppError.urlError)
             return
         }
         
         sendListRequest(withUrl: url, completion: completion)
     }
     
-    func requestSearch(query: String, page: Int, completion: @escaping ([Movie]?, Error?) -> ()) {
+    func requestSearch(query: String, page: Int, completion: @escaping ([Movie]?, Int?, Error?) -> ()) {
         
         guard let url = searchUrl(query: query, page: page) else {
-            completion(nil, AppError.urlError)
+            completion(nil, nil, AppError.urlError)
             return
         }
         
@@ -98,19 +98,19 @@ class ApiClient {
         task.resume()
     }
     
-    private func sendListRequest(withUrl url: URL, completion: @escaping ([Movie]?, Error?) -> ()) {
+    private func sendListRequest(withUrl url: URL, completion: @escaping ([Movie]?, Int?, Error?) -> ()) {
         let task = session.dataTask(with: url) { (data, response, error) in
             if error != nil {
-                completion(nil, error)
+                completion(nil, nil, error)
             } else {
                 if let data = data {
-                    if let movieList = Parser.parseMovieList(data)?.results {
-                        completion(movieList, nil)
+                    if let envelope = Parser.parseMovieList(data), let movieList = envelope.results, let totalPages = envelope.totalPages {
+                        completion(movieList, totalPages, nil)
                     } else {
-                        completion(nil, AppError.emptyResponse)
+                        completion(nil, nil, AppError.emptyResponse)
                     }
                 } else {
-                    completion(nil, AppError.emptyResponse)
+                    completion(nil, nil, AppError.emptyResponse)
                 }
             }
         }
