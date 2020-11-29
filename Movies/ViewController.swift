@@ -45,6 +45,12 @@ class ViewController: UITableViewController {
         
         return controller
     }()
+    
+    //
+    
+    private var activityIndicator = UIActivityIndicatorView()
+    
+    //
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,14 +59,12 @@ class ViewController: UITableViewController {
                            forCellReuseIdentifier: MovieCell.cellId)
         
         //
-                
-        storageManager.fetchDiscover(page: 1) { error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.alert(message: error.localizedDescription)
-                }
-            }
-        }
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+        activityIndicator.startAnimating()
+        activityIndicator.style = .large
+        
+        tableView.tableFooterView = activityIndicator
     }
         
     
@@ -71,15 +75,25 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchResultsController.sections?[section].numberOfObjects ?? 0
+        let number = fetchResultsController.sections?[section].numberOfObjects ?? 0
+        
+        if number == 0 {
+            requestNextPageIfNeeded(0)
+        }
+        
+        return number
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        requestNextPageIfNeeded(indexPath.row)
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.cellId, for: indexPath)
         
         let movie = fetchResultsController.object(at: indexPath)
         
         cell.textLabel?.text = movie.title
+        cell.detailTextLabel?.text = movie.popularity > 0 ? "Popularity: \(movie.popularity)" : nil
         
         return cell
     }
@@ -92,7 +106,21 @@ class ViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alert, animated: true)
     }
-
+    
+    func requestNextPageIfNeeded(_ row: Int) {
+        
+        let totalCount: Int
+        
+        if fetchResultsController.sections?.count == 1 {
+            totalCount = fetchResultsController.sections![0].numberOfObjects
+        } else {
+            totalCount = 0
+        }
+        
+        if row >= totalCount - 1 - Config.nextPageThreshold {
+            storageManager.fetchNextDiscoverPageIfNeeded()
+        }
+    }
 }
 
 

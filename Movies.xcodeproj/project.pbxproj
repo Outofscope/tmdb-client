@@ -33,7 +33,6 @@
 		8B5051EE25728E5400AF76B9 /* StoredMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051EB25728E5400AF76B9 /* StoredMovie+CoreDataProperties.swift */; };
 		8B5051EF25728E5400AF76B9 /* StoredMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051EB25728E5400AF76B9 /* StoredMovie+CoreDataProperties.swift */; };
 		8B5051FA2572920200AF76B9 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051F92572920200AF76B9 /* ApiClient.swift */; };
-		8B5051FB2572920200AF76B9 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051F92572920200AF76B9 /* ApiClient.swift */; };
 		8B5052002572937400AF76B9 /* ApiClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051FF2572937400AF76B9 /* ApiClientTests.swift */; };
 		8B5052082572B05200AF76B9 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5052072572B05200AF76B9 /* StorageManager.swift */; };
 		8B50520E2572B2C000AF76B9 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B50520D2572B2C000AF76B9 /* AppError.swift */; };
@@ -41,6 +40,8 @@
 		8B5052182572CB9900AF76B9 /* StoredMovie+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5052172572CB9900AF76B9 /* StoredMovie+Update.swift */; };
 		8B50521F2572D0EF00AF76B9 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B50521D2572D0EF00AF76B9 /* MovieCell.swift */; };
 		8B5052202572D0EF00AF76B9 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B50521E2572D0EF00AF76B9 /* MovieCell.xib */; };
+		8B6667B12573A2C80014C9C3 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B50520D2572B2C000AF76B9 /* AppError.swift */; };
+		8B6667B52573A2CA0014C9C3 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5051F92572920200AF76B9 /* ApiClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -396,13 +397,14 @@
 			files = (
 				8B5051B62572753100AF76B9 /* Parser.swift in Sources */,
 				8B5051ED25728E5400AF76B9 /* StoredMovie+CoreDataClass.swift in Sources */,
+				8B6667B12573A2C80014C9C3 /* AppError.swift in Sources */,
 				8B50516925726F7300AF76B9 /* MoviesTests.swift in Sources */,
 				8B5052002572937400AF76B9 /* ApiClientTests.swift in Sources */,
-				8B5051FB2572920200AF76B9 /* ApiClient.swift in Sources */,
 				8B5051CC257275DE00AF76B9 /* Movie.swift in Sources */,
 				8B5051D925728AE600AF76B9 /* MovieDetails.swift in Sources */,
 				8B5051EF25728E5400AF76B9 /* StoredMovie+CoreDataProperties.swift in Sources */,
 				8B5051C02572758200AF76B9 /* Envelope.swift in Sources */,
+				8B6667B52573A2CA0014C9C3 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,6 +573,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Movies/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -590,6 +593,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Movies/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

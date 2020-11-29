@@ -9,8 +9,23 @@ import Foundation
 import CoreData
 
 class StorageManager {
+    
     private let api: ApiClient
     private let container: NSPersistentContainer
+    
+    private let lastDownloadedPageKey = "lastDownloadedPage"
+    
+    private var lastDownloadedPage: Int {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: lastDownloadedPageKey)
+        }
+        get {
+            UserDefaults.standard.integer(forKey: lastDownloadedPageKey)
+        }
+    }
+    
+    private var discoverFetchIsInProgress = false
+    
     
     init(api: ApiClient, container: NSPersistentContainer) {
         self.api = api
@@ -18,8 +33,7 @@ class StorageManager {
     }
     
     // page starts from 1
-    func fetchDiscover(page: Int, completion: @escaping (Error?) -> ()) {
-        
+    private func fetchDiscover(page: Int, completion: @escaping (Error?) -> ()) {
         api.requestDiscover(page: page) { [weak self = self] (movieList, error) in
             
             guard let self = self else {
@@ -37,7 +51,31 @@ class StorageManager {
             
             completion(nil)
         }
+    }
+    
+    // call and completion in the main queue
+    func fetchNextDiscoverPageIfNeeded(completion: ((Error?) -> ())? = nil) {
         
+        if discoverFetchIsInProgress {
+            return
+        }
+        
+        discoverFetchIsInProgress = true
+        
+        let page = lastDownloadedPage + 1
+        
+        fetchDiscover(page: page) { [weak self = self] error in
+            
+            guard let self = self else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.lastDownloadedPage = page
+                self.discoverFetchIsInProgress = false
+                completion?(error)
+            }
+        }
     }
     
     
@@ -62,7 +100,6 @@ class StorageManager {
                 if let storedMovie = NSEntityDescription.insertNewObject(forEntityName: "StoredMovie", into: updateContext) as? StoredMovie {
 
                     storedMovie.update(with: movie)
-                    storedMovie.metaOrder = order
                 }
             }
             
