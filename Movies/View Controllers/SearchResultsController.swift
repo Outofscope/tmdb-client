@@ -23,8 +23,14 @@ class SearchResultsController: UITableViewController {
                 return
             }
             
-            self.searchManager.search(self.searchController.searchBar.text ?? "") { error in
+            self.searchManager.search(self.searchController.searchBar.text ?? "") { [weak self = self] error in
+                guard let self = self else {
+                    return
+                }
                 
+                if let error = error {
+                    self.alert(message: error.localizedDescription)
+                }
             }
         }
     }()
@@ -129,8 +135,14 @@ class SearchResultsController: UITableViewController {
     
     private func requestNextPageIfNeeded(_ row: Int) {
         if row >= searchManager.movieCount - 1 - Config.nextPageThreshold {
-            searchManager.fetchNextPageIfNeeded { _ in 
+            searchManager.fetchNextPageIfNeeded { [weak self = self] error in
+                guard let self = self else {
+                    return
+                }
                 
+                if let error = error {
+                    self.alert(message: error.localizedDescription)
+                }
             }
         }
     }
@@ -167,6 +179,12 @@ class SearchResultsController: UITableViewController {
             tableView.tableFooterView = nil
             activityIndicator.stopAnimating()
         }
+    }
+    
+    private func alert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(alert, animated: true)
     }
 }
 

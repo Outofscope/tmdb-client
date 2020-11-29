@@ -136,15 +136,23 @@ class PopularController: UITableViewController {
     
     // MARK: -
     
-    func alert(message: String) {
+    private func alert(message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alert, animated: true)
     }
     
-    func requestNextPageIfNeeded(_ row: Int) {
+    private func requestNextPageIfNeeded(_ row: Int) {
         if row >= totalCount - 1 - Config.nextPageThreshold {
-            storageManager.fetchNextDiscoverPageIfNeeded()
+            storageManager.fetchNextDiscoverPageIfNeeded { [weak self = self] error in
+                guard let self = self else {
+                    return
+                }
+                
+                if let error = error {
+                    self.alert(message: error.localizedDescription)
+                }
+            }
         }
     }
     
@@ -196,6 +204,10 @@ class PopularController: UITableViewController {
             
             if self.refreshControl!.isRefreshing {
                 self.refreshControl!.endRefreshing()
+            }
+            
+            if let error = error {
+                self.alert(message: error.localizedDescription)
             }
         }
     }
