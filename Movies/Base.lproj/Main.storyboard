@@ -12,7 +12,7 @@
         <!--Popular-->
         <scene sceneID="glR-9X-39Y">
             <objects>
-                <tableViewController id="unW-lw-uKB" customClass="ViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="unW-lw-uKB" customClass="PopularController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="28A-kV-dd5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -198,7 +198,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eXn-oM-ch3"/>
+        <segue reference="BYk-Ma-4HY"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>

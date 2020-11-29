@@ -10,8 +10,7 @@ import Kingfisher
 
 class DetailsController: UIViewController {
     
-    var storageManager: StorageManager?
-    var movieId: Int64?
+    var movie: DisplayedMovie?
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
@@ -27,7 +26,7 @@ class DetailsController: UIViewController {
     // MARK: -
     
     private func updateAll() {
-        if let movieId = movieId, let movie = storageManager?.storedMovie(forMovieId: movieId) {
+        if let movie = movie {
             title = movie.title
             titleLabel.text = movie.title
             overviewLabel.text = movie.overview

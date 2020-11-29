@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PopularController.swift
 //  Movies
 //
 //  Created by Konstantin Medvedenko on 28.11.2020.
@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 import Kingfisher
 
-class ViewController: UITableViewController {
+class PopularController: UITableViewController {
     
     lazy var storageManager: StorageManager = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -72,8 +72,7 @@ class ViewController: UITableViewController {
         if let vc = segue.destination as? DetailsController, let indexPath = sender as? IndexPath {
             
             let movie = fetchResultsController.object(at: indexPath)
-            vc.movieId = movie.movieId
-            vc.storageManager = storageManager
+            vc.movie = DisplayedMovie(storedMovie: movie)
         }
     }
         
@@ -151,7 +150,7 @@ class ViewController: UITableViewController {
 }
 
 
-extension ViewController: NSFetchedResultsControllerDelegate {
+extension PopularController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.reloadData()
     }

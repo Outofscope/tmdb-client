@@ -63,6 +63,15 @@ class SearchResultsController: UITableViewController {
         
         definesPresentationContext = true
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? DetailsController, let indexPath = sender as? IndexPath {
+            
+            let movie = searchManager.movie(atIndex: indexPath.row)
+            vc.movie = DisplayedMovie(movie: movie)
+        }
+    }
+    
 
     // MARK: - Table view data source
 
@@ -93,6 +102,13 @@ class SearchResultsController: UITableViewController {
         }
 
         return cell
+    }
+    
+    
+    // MARK: - Table View Delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "Show Details", sender: indexPath)
     }
     
     
