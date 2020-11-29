@@ -97,6 +97,12 @@ class StorageManager {
         }
     }
     
+    func fetchRefreshed(completion: ((Error?) -> ())? = nil) {
+        lastDownloadedPage = 0
+        totalPageCount = 0
+        fetchNextDiscoverPageIfNeeded(completion: completion)
+    }
+    
     func storedMovie(forMovieId movieId: Int64) -> StoredMovie? {
         let request: NSFetchRequest<StoredMovie> = StoredMovie.fetchRequest()
         request.predicate = NSPredicate(format: "movieId == %ld", movieId)

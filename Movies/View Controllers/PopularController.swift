@@ -71,7 +71,9 @@ class PopularController: UITableViewController {
         
         //
         
+        setupRefreshControl()
         setupActivityIndicator()
+        
         updateActivityIndicator()
     }
     
@@ -146,6 +148,12 @@ class PopularController: UITableViewController {
         }
     }
     
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        tableView.refreshControl = refreshControl
+        refreshControl!.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+    }
+    
     private func setupActivityIndicator() {
         activityIndicator.startAnimating()
         activityIndicator.style = .large
@@ -173,6 +181,22 @@ class PopularController: UITableViewController {
         } else {
             tableView.tableFooterView = nil
             activityIndicator.stopAnimating()
+        }
+    }
+    
+    
+    // MARK: -
+    
+    @objc func refresh(_ sender: Any) {
+        storageManager.fetchRefreshed { [weak self = self] error in
+            
+            guard let self = self else {
+                return
+            }
+            
+            if self.refreshControl!.isRefreshing {
+                self.refreshControl!.endRefreshing()
+            }
         }
     }
 }
