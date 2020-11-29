@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import Kingfisher
 
 class ViewController: UITableViewController {
     
@@ -94,6 +95,16 @@ class ViewController: UITableViewController {
         
         cell.textLabel?.text = movie.title
         cell.detailTextLabel?.text = movie.popularity > 0 ? "Popularity: \(movie.popularity)" : nil
+        
+        if let posterPath = movie.posterPath {
+            let url = URL(string: Config.posterSizeThumb + posterPath,
+                          relativeTo: Config.imageBaseUrl)
+            cell.imageView?.kf.setImage(with: url, completionHandler: { result in
+                cell.setNeedsLayout()
+            })
+        } else {
+            cell.imageView?.kf.setImage(with: nil as ImageDataProvider?)
+        }
         
         return cell
     }
