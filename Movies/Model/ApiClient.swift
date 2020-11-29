@@ -59,7 +59,7 @@ class ApiClient {
             return
         }
         
-        sendRequest(withUrl: url, completion: completion)
+        sendListRequest(withUrl: url, completion: completion)
     }
     
     func requestSearch(query: String, page: Int, completion: @escaping ([Movie]?, Error?) -> ()) {
@@ -69,10 +69,36 @@ class ApiClient {
             return
         }
         
-        sendRequest(withUrl: url, completion: completion)
+        sendListRequest(withUrl: url, completion: completion)
     }
     
-    private func sendRequest(withUrl url: URL, completion: @escaping ([Movie]?, Error?) -> ()) {
+    func requestDetails(movieId: Int, completion: @escaping (MovieDetails?, Error?) -> ()) {
+        
+        guard let url = detailsUrl(movieId: movieId) else {
+            completion(nil, AppError.urlError)
+            return
+        }
+        
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if error != nil {
+                completion(nil, error)
+            } else {
+                if let data = data {
+                    if let movieDetails = Parser.parseMovieDetails(data) {
+                        completion(movieDetails, nil)
+                    } else {
+                        completion(nil, AppError.emptyResponse)
+                    }
+                } else {
+                    completion(nil, AppError.emptyResponse)
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    private func sendListRequest(withUrl url: URL, completion: @escaping ([Movie]?, Error?) -> ()) {
         let task = session.dataTask(with: url) { (data, response, error) in
             if error != nil {
                 completion(nil, error)
