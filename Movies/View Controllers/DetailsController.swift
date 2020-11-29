@@ -30,7 +30,7 @@ class DetailsController: UIViewController {
             title = movie.title
             titleLabel.text = movie.title
             overviewLabel.text = movie.overview
-            releaseDateLabel.text = movie.releaseDate
+            releaseDateLabel.text = movie.releaseDate != nil ? DateHelper.formattedDate(withStr: movie.releaseDate!) : nil
             
             if let posterPath = movie.posterPath {
                 let url = URL(string: Config.posterSizeDetails + posterPath,
