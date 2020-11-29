@@ -36,7 +36,7 @@ class StorageManager {
     
     private var discoverFetchIsInProgress = false
     
-    var hasMoreResults: Bool {
+    var hasMoreDiscoverResults: Bool {
         totalPageCount > lastDownloadedPage
     }
     
@@ -69,6 +69,10 @@ class StorageManager {
     
     // call and completion in the main queue
     func fetchNextDiscoverPageIfNeeded(completion: ((Error?) -> ())? = nil) {
+        
+        if !hasMoreDiscoverResults && lastDownloadedPage > 0 {
+            return
+        }
         
         if discoverFetchIsInProgress {
             return

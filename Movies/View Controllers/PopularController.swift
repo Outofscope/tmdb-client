@@ -47,7 +47,20 @@ class PopularController: UITableViewController {
     //
     
     private var activityIndicator = UIActivityIndicatorView()
+    private var endLabel = UILabel()
     
+    private var totalCount: Int {
+        let totalCount: Int
+        
+        if fetchResultsController.sections?.count == 1 {
+            totalCount = fetchResultsController.sections![0].numberOfObjects
+        } else {
+            totalCount = 0
+        }
+        
+        return totalCount
+    }
+
     //
 
     override func viewDidLoad() {
@@ -58,14 +71,8 @@ class PopularController: UITableViewController {
         
         //
         
-        activityIndicator.startAnimating()
-        activityIndicator.style = .large
-        activityIndicator.frame = CGRect(x: 0,
-                                         y: 0,
-                                         width: Config.activityIndicatorSize,
-                                         height: Config.activityIndicatorSize)
-        
-        tableView.tableFooterView = activityIndicator
+        setupActivityIndicator()
+        updateActivityIndicator()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -134,17 +141,38 @@ class PopularController: UITableViewController {
     }
     
     func requestNextPageIfNeeded(_ row: Int) {
-        
-        let totalCount: Int
-        
-        if fetchResultsController.sections?.count == 1 {
-            totalCount = fetchResultsController.sections![0].numberOfObjects
-        } else {
-            totalCount = 0
-        }
-        
         if row >= totalCount - 1 - Config.nextPageThreshold {
             storageManager.fetchNextDiscoverPageIfNeeded()
+        }
+    }
+    
+    private func setupActivityIndicator() {
+        activityIndicator.startAnimating()
+        activityIndicator.style = .large
+        activityIndicator.frame = CGRect(x: 0,
+                                         y: 0,
+                                         width: Config.activityIndicatorSize,
+                                         height: Config.activityIndicatorSize)
+                
+        //
+        
+        endLabel.textAlignment = .center
+        endLabel.textColor = .secondaryLabel
+        endLabel.text = "That's all"
+        
+        endLabel.frame = activityIndicator.frame
+    }
+    
+    private func updateActivityIndicator() {
+        if storageManager.hasMoreDiscoverResults {
+            tableView.tableFooterView = activityIndicator
+            activityIndicator.startAnimating()
+        } else if totalCount > 0 {
+            tableView.tableFooterView = endLabel
+            activityIndicator.stopAnimating()
+        } else {
+            tableView.tableFooterView = nil
+            activityIndicator.stopAnimating()
         }
     }
 }
@@ -152,6 +180,7 @@ class PopularController: UITableViewController {
 
 extension PopularController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        updateActivityIndicator()
         tableView.reloadData()
     }
 }

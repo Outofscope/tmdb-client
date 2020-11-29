@@ -160,8 +160,11 @@ class SearchResultsController: UITableViewController {
         if searchManager.hasMoreResults {
             tableView.tableFooterView = activityIndicator
             activityIndicator.startAnimating()
-        } else {
+        } else if searchManager.movieCount > 0 {
             tableView.tableFooterView = endLabel
+            activityIndicator.stopAnimating()
+        } else {
+            tableView.tableFooterView = nil
             activityIndicator.stopAnimating()
         }
     }
