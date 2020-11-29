@@ -21,7 +21,7 @@ extension StoredMovie {
     @NSManaged public var overview: String?
     @NSManaged public var releaseDate: String?
     @NSManaged public var movieId: Int64
-    @NSManaged public var metaOrder: Int64
+    @NSManaged public var popularity: Double
     @NSManaged public var budget: Int64
     @NSManaged public var revenue: Int64
     @NSManaged public var runtime: Int64

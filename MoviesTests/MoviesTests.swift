@@ -32,7 +32,8 @@ class MoviesTests: XCTestCase {
         XCTAssertEqual(hardKill.posterPath, "/ugZW8ocsrfgI95pnQ7wrmKDxIe.jpg")
         XCTAssertNotNil(hardKill.overview)
         XCTAssertEqual(hardKill.releaseDate, "2020-10-23")
-        
+        XCTAssertEqual(hardKill.popularity, 1025.42)
+
         // intentionally removed some data from this record
         let theWitches = envelope!.results![2]
         XCTAssertNil(theWitches.id)

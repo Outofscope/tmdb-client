@@ -13,6 +13,7 @@ struct MovieDetails: Decodable {
     let posterPath: String?
     let overview: String?
     let releaseDate: String?
+    let popularity: Double?
     
     let budget: Int?
     let revenue: Int?

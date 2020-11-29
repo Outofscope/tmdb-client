@@ -26,7 +26,7 @@ class ViewController: UITableViewController {
     lazy var fetchResultsController: NSFetchedResultsController<StoredMovie> = {
         
         let request: NSFetchRequest<StoredMovie> = StoredMovie.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "metaOrder", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
         
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let controller = NSFetchedResultsController(fetchRequest: request,

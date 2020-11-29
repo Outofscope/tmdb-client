@@ -2,9 +2,9 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="StoredMovie" representedClassName="StoredMovie" syncable="YES">
         <attribute name="budget" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="metaOrder" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="movieId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="overview" attributeType="String"/>
+        <attribute name="popularity" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="posterPath" attributeType="String"/>
         <attribute name="releaseDate" attributeType="String"/>
         <attribute name="revenue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -13,8 +13,8 @@
         <fetchIndex name="byMoviIdIndex">
             <fetchIndexElement property="movieId" type="Binary" order="ascending"/>
         </fetchIndex>
-        <fetchIndex name="byMetaOrderIndex">
-            <fetchIndexElement property="metaOrder" type="Binary" order="ascending"/>
+        <fetchIndex name="byPopularityIndex">
+            <fetchIndexElement property="popularity" type="Binary" order="descending"/>
         </fetchIndex>
     </entity>
     <elements>

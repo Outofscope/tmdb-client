@@ -13,5 +13,6 @@ extension StoredMovie {
         posterPath = movie.posterPath
         overview = movie.overview
         releaseDate = movie.releaseDate
+        popularity = movie.popularity ?? 0
     }
 }
