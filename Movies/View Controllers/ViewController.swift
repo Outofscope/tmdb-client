@@ -67,6 +67,15 @@ class ViewController: UITableViewController {
         
         tableView.tableFooterView = activityIndicator
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? DetailsController, let indexPath = sender as? IndexPath {
+            
+            let movie = fetchResultsController.object(at: indexPath)
+            vc.movieId = movie.movieId
+            vc.storageManager = storageManager
+        }
+    }
         
     
     // MARK: - Table View Data Source
@@ -107,6 +116,13 @@ class ViewController: UITableViewController {
         }
         
         return cell
+    }
+    
+    
+    // MARK: - Table View Delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "Show Details", sender: indexPath)
     }
     
     

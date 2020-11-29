@@ -9,6 +9,7 @@ import Foundation
 
 extension StoredMovie {
     func update(with movie: Movie) {
+        movieId = Int64(movie.id ?? 0)
         title = movie.title
         posterPath = movie.posterPath
         overview = movie.overview

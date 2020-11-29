@@ -78,6 +78,19 @@ class StorageManager {
         }
     }
     
+    func storedMovie(forMovieId movieId: Int64) -> StoredMovie? {
+        let request: NSFetchRequest<StoredMovie> = StoredMovie.fetchRequest()
+        request.predicate = NSPredicate(format: "movieId == %ld", movieId)
+        
+        do {
+            let result = try container.viewContext.fetch(request)
+            return result.first
+        } catch {
+            print("Movie fetch by ID error: \(error)")
+            return nil
+        }
+    }
+    
     
     // MARK: -
     
